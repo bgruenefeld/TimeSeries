@@ -10,7 +10,6 @@ def _ComputeCoefs(w):
     invariant = 1 / (a11 * a22 - a12 * a12)
     return (a11, a12, a22, invariant)
 
-
 #Given a window, compute the anomaly score as well as the trend
 def _ComputeScore(coefs, values):
     b1 = b2 = 0
@@ -25,7 +24,6 @@ def _ComputeScore(coefs, values):
         deviation = slope * j + intercept - y
         residual += deviation * deviation
     return math.sqrt(residual / len(values)), slope
-
 
 def DetectAnomalies(data, windowSize, levels=1, numTopResults=None, col=0):
     dtype = type(data)
@@ -99,18 +97,12 @@ def DetectAnomalies(data, windowSize, levels=1, numTopResults=None, col=0):
             curId += 1
         print('--------------- Threshold level {0}: {1:G} ---------------'.format(
             levels - level, thresholds[level]));
-
-    #Print one normal instance
-    idx = results[curId][0]
-    print('{0: <45}{1:G}'.format(str(timestamps[idx]) + ' - ' + str(timestamps[idx + w - 1]), results[curId][1]))
-
+        
     return thresholds
-
 
 def DetectAnomaliesFromFile(filename, windowSize, separator=',', levels=1, numTopResults=None):
     data = read_csv(filename, parse_dates=0, index_col=0)
     return DetectAnomalies(data, windowSize, levels=levels, numTopResults=numTopResults)
-
 
 class StreamingAnomalyDetector:
     def __init__(self, windowSize, thresholds):
