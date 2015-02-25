@@ -121,7 +121,7 @@ class StreamingAnomalyDetector:
         w1 = self._w - 1;
         self._buffer[0:w1] = self._buffer[-w1:]
         self._buffer[-1] = value;
-        return _ComputeCoefs(self._coefs, self._buffer)
+        return _ComputeScore(self._coefs, self._buffer)
 
     def Classify(self, value):
         (score, trend) = self.Score(self, value)
